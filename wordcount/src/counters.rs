@@ -8,7 +8,7 @@ pub fn bytes(content: &str) -> i64 {
 }
 
 pub fn lines(content: &str) -> i64 {
-    let split_c:Vec<&str> = content.split("\n").collect();
+    let split_c:Vec<&str> = content.lines().collect();
     split_c.len().try_into().unwrap()
 }
 

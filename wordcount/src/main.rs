@@ -63,7 +63,7 @@ mod main_test {
         let result = crate::read_and_count("./data/test.txt", CountType::Lines);
         // https://codingchallenges.fyi/challenges/challenge-wc#step-two
         // ➜  rust-coding-challenge git:(main) wc -l ./wordcount/data/test.txt
-        //    7146 ./wordcount/data/test.txt
-        assert_eq!(result, 7146);
+        //    7145 ./wordcount/data/test.txt
+        assert_eq!(result, 7145);
     }
 }
