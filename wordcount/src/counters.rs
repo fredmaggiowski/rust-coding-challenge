@@ -1,6 +1,9 @@
+use regex::Regex;
+
 pub enum CountType {
     Bytes,
     Lines,
+    Words,
 }
 
 pub struct Counter {
@@ -20,6 +23,11 @@ impl Counter {
         let split_c:Vec<&str> = self.content.lines().collect();
         split_c.len().try_into().unwrap()
     }
+    pub fn words(&self) -> i64 {
+        let separator = Regex::new(r"\s").expect("invalid regex");
+        let splitted: Vec<&str> = separator.split(self.content.as_str()).collect();
+        splitted.len().try_into().unwrap()
+    }    
 }
 
 #[cfg(test)]
@@ -46,5 +54,20 @@ mod counters_test {
 on two lines";
         let result = Counter::new(content.to_string()).lines();
         assert_eq!(result, 2);
+    }
+
+    #[test]
+    fn t_words() {
+        let content: &str = "w1 w2 w-3";
+        let result = counters::words(content);
+        assert_eq!(result, 3);
+    }
+
+    #[test]
+    fn t_words_multiline() {
+        let content: &str = "w1 w2
+w-3";
+        let result = counters::words(content);
+        assert_eq!(result, 3);
     }
 }
