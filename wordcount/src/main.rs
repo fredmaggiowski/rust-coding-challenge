@@ -12,9 +12,10 @@ fn print(count: i64, path: &str) {
 
 fn read_and_count(path: &str, count_type: counters::CountType) -> i64 {
     let content = read_file(&path);
+    let counter = counters::Counter::new(content);
     match count_type {
-        counters::CountType::Bytes => counters::bytes(content.as_str()),
-        counters::CountType::Lines => counters::lines(content.as_str()),
+        counters::CountType::Bytes => counter.bytes(),
+        counters::CountType::Lines => counter.lines(),
     }
 }
 

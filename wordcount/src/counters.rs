@@ -3,30 +3,40 @@ pub enum CountType {
     Lines,
 }
 
-pub fn bytes(content: &str) -> i64 {
-    content.len().try_into().unwrap()
+pub struct Counter {
+    content: String
 }
 
-pub fn lines(content: &str) -> i64 {
-    let split_c:Vec<&str> = content.lines().collect();
-    split_c.len().try_into().unwrap()
+impl Counter {
+    pub fn new(content: String) -> Counter {
+        Counter{ content: content }
+    }
+
+    pub fn bytes(&self) -> i64 {
+        self.content.len().try_into().unwrap()
+    }
+    
+    pub fn lines(&self) -> i64 {
+        let split_c:Vec<&str> = self.content.lines().collect();
+        split_c.len().try_into().unwrap()
+    }
 }
 
 #[cfg(test)]
 mod counters_test {
-    use crate::counters;
+    use crate::counters::Counter;
 
     #[test]
     fn t_bytes () {
         let content = "my-content";
-        let result = counters::bytes(content);
+        let result = Counter::new(content.to_string()).bytes();
         assert_eq!(result, 10);
     }
 
     #[test]
     fn t_lines() {
         let content = "my-content";
-        let result = counters::lines(content);
+        let result = Counter::new(content.to_string()).lines();
         assert_eq!(result, 1);
     }
 
@@ -34,7 +44,7 @@ mod counters_test {
     fn t_lines_multi() {
         let content = "my-content
 on two lines";
-        let result = counters::lines(content);
+        let result = Counter::new(content.to_string()).lines();
         assert_eq!(result, 2);
     }
 }
