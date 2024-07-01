@@ -59,7 +59,7 @@ on two lines";
     #[test]
     fn t_words() {
         let content: &str = "w1 w2 w-3";
-        let result = counters::words(content);
+        let result = Counter::new(content.to_string()).words();
         assert_eq!(result, 3);
     }
 
@@ -67,7 +67,7 @@ on two lines";
     fn t_words_multiline() {
         let content: &str = "w1 w2
 w-3";
-        let result = counters::words(content);
+        let result = Counter::new(content.to_string()).words();
         assert_eq!(result, 3);
     }
 }
