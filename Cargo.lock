@@ -7,8 +7,24 @@ name = "cliparser"
 version = "0.1.0"
 
 [[package]]
+name = "unicode-blocks"
+version = "0.1.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6b12e05d9e06373163a9bb6bb8c263c261b396643a99445fe6b9811fd376581b"
+
+[[package]]
 name = "wordcount"
 version = "0.1.0"
 dependencies = [
  "cliparser",
+ "words-count",
+]
+
+[[package]]
+name = "words-count"
+version = "0.1.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d28653ddaede5475c44a03e4014ae19f35aa9b231c423228b28963cb873e4869"
+dependencies = [
+ "unicode-blocks",
 ]
