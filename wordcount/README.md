@@ -10,4 +10,6 @@ cargo build
 # 7145 ./wordcount/data/test.txt
 ./target/debug/wordcount -w ./wordcount/data/test.txt
 # 58164 ./wordcount/data/test.txt
+./target/debug/wordcount -m ./wordcount/data/test.txt
+# 332146 ./wordcount/data/test.txt
 ```

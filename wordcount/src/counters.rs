@@ -1,9 +1,10 @@
-use words_count;
+use words_count::{self, WordsCount};
 
 pub enum CountType {
     Bytes,
     Lines,
     Words,
+    Chars,
 }
 
 pub struct Counter {
@@ -24,9 +25,17 @@ impl Counter {
         split_c.len().try_into().unwrap()
     }
 
+    fn wordcount_wrapper(&self) -> WordsCount {
+        words_count::count(self.content.to_string())
+    }
+
     pub fn words(&self) -> i64 {
-        words_count::count(self.content.to_string()).words.try_into().unwrap()
-    }    
+        self.wordcount_wrapper().words.try_into().unwrap()
+    }
+
+    pub fn chars(&self) -> i64 {
+        self.wordcount_wrapper().characters.try_into().unwrap()
+    }
 }
 
 #[cfg(test)]
@@ -91,5 +100,12 @@ march unless we are.", 30;
 [These three sentences are repeated from VII. §§ 12-14—in order to
 emphasize their importance, the commentators seem to think. 
 ", 19
+    }
+
+    #[test]
+    fn t_chars () {
+        let content: &str = "w1 w2";
+        let result = Counter::new(content.to_string()).chars();
+        assert_eq!(result, 5);
     }
 }

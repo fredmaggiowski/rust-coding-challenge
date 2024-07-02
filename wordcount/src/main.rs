@@ -17,6 +17,7 @@ fn read_and_count(path: &str, count_type: counters::CountType) -> i64 {
         counters::CountType::Bytes => counter.bytes(),
         counters::CountType::Lines => counter.lines(),
         counters::CountType::Words => counter.words(),
+        counters::CountType::Chars => counter.chars(),
     }
 }
 
@@ -25,7 +26,8 @@ fn map_count_flag_to_counttype(arg: &str) -> CountType {
         "-c" => counters::CountType::Bytes,
         "-l" => counters::CountType::Lines,
         "-w" => counters::CountType::Words,
-        _ => panic!("invalid flag, expected -c, -l or -w"),
+        "-m" => counters::CountType::Chars,
+        _ => panic!("invalid flag, expected -c, -l, -w or -m"),
     }
 }
 
@@ -73,9 +75,18 @@ mod main_test {
     #[test]
     fn t_read_and_count_original_dataset_words() {
         let result = crate::read_and_count("./data/test.txt", CountType::Words);
-        // https://codingchallenges.fyi/challenges/challenge-wc#step-two
+        // https://codingchallenges.fyi/challenges/challenge-wc#step-three
         // ➜  rust-coding-challenge git:(main) wc -w ./wordcount/data/test.txt
         //    58164 ./wordcount/data/test.txt
         assert_eq!(result, 58164);
+    }
+
+    #[test]
+    fn t_read_and_count_original_dataset_chars() {
+        let result = crate::read_and_count("./data/test.txt", CountType::Chars);
+        // https://codingchallenges.fyi/challenges/challenge-wc#step-four
+        // ➜  rust-coding-challenge git:(main) wc -m ./wordcount/data/test.txt
+        //    332146 ./wordcount/data/test.txt
+        assert_eq!(result, 332146);
     }
 }
