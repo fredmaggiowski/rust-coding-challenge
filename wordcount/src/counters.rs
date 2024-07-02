@@ -1,4 +1,4 @@
-use regex::Regex;
+use words_count;
 
 pub enum CountType {
     Bytes,
@@ -23,15 +23,25 @@ impl Counter {
         let split_c:Vec<&str> = self.content.lines().collect();
         split_c.len().try_into().unwrap()
     }
+
     pub fn words(&self) -> i64 {
-        let separator = Regex::new(r"\s").expect("invalid regex");
-        let splitted: Vec<&str> = separator.split(self.content.as_str()).collect();
-        splitted.len().try_into().unwrap()
+        words_count::count(self.content.to_string()).words.try_into().unwrap()
     }    
 }
 
 #[cfg(test)]
 mod counters_test {
+    macro_rules! test_cases_words {
+        ( $($label:ident : $content:expr, $exp:expr);* $(;)? ) => {
+            $(
+                #[test]
+                fn $label() {
+                    assert_eq!(Counter::new($content.to_string()).words(), $exp);
+                }
+            )*
+        }
+    }
+    
     use crate::counters::Counter;
 
     #[test]
@@ -69,5 +79,17 @@ on two lines";
 w-3";
         let result = Counter::new(content.to_string()).words();
         assert_eq!(result, 3);
+    }
+    
+    test_cases_words!  {    
+        speachless: "", 0;
+        single_word: "hello", 1;
+        excerpt_1: "52. We cannot enter into alliance with neighbouring princes until we are
+acquainted with their designs. We are not fit to lead an army on the
+march unless we are.", 30;
+        excerpt_2: "
+[These three sentences are repeated from VII. §§ 12-14—in order to
+emphasize their importance, the commentators seem to think. 
+", 19
     }
 }
